@@ -65,6 +65,13 @@ class PostController extends Controller
     public function edit($id)
     {
         $post = Post::where('id', $id)->first();
+
+        if(Auth::guest()){
+            return redirect('/login');
+        }
+        else if(auth()->user()->id != $post->user_id){
+            return redirect('/posts');
+        }
         return view('posts.edit')->with(['post' =>$post]);
 
     }
